@@ -1,0 +1,1859 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`riyoKakuninApiGwKdsStack 1`] = `
+{
+  "Outputs": {
+    "riyokakuninApiGWriyotsuchiApiEndpointE06DDB85": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "riyokakuninApiGWriyotsuchiApi375FA80D",
+            },
+            ".execute-api.us-east-2.",
+            {
+              "Ref": "AWS::URLSuffix",
+            },
+            "/",
+            {
+              "Ref": "riyokakuninApiGWriyotsuchiApiDeploymentStagepdsdev7C34A252",
+            },
+            "/",
+          ],
+        ],
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "riyokakuninApiGW5xxAlarm70A9CBE7": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": "dev-base-stack:ExportsOutputRefsnsTopic22605A7723AC23D3",
+          },
+        ],
+        "AlarmName": "pds-dev-cloudwatch-alarm-api-serverError-riyokakunin-warn",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "ApiName",
+            "Value": "pds-dev-api-riyokakunin",
+          },
+        ],
+        "EvaluationPeriods": 10,
+        "MetricName": "5XXError",
+        "Namespace": "AWS/ApiGateway",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+        "Threshold": 45,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "riyokakuninApiGWLogGroup5A35CB0F": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "RetentionInDays": 731,
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "riyokakuninApiGWRole31D17EE6": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "apigateway.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs",
+              ],
+            ],
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "riyokakuninApiGWRoleDefaultPolicyAA78BE35": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "kinesis:DescribeStreamSummary",
+                "kinesis:GetRecords",
+                "kinesis:GetShardIterator",
+                "kinesis:ListShards",
+                "kinesis:SubscribeToShard",
+                "kinesis:DescribeStream",
+                "kinesis:ListStreams",
+                "kinesis:DescribeStreamConsumer",
+                "kinesis:PutRecord",
+                "kinesis:PutRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "riyokakuninDataStreamriyotsuchiStream47AD6570",
+                  "Arn",
+                ],
+              },
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "riyokakuninDataStreamCustomerKey6B661761",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "riyokakuninApiGWRoleDefaultPolicyAA78BE35",
+        "Roles": [
+          {
+            "Ref": "riyokakuninApiGWRole31D17EE6",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "riyokakuninApiGWlatencyFB7A1954": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": "dev-base-stack:ExportsOutputRefsnsTopic22605A7723AC23D3",
+          },
+        ],
+        "AlarmName": "pds-dev-cloudwatch-alarm-api-latency-riyokakunin-warn",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "ApiName",
+            "Value": "pds-dev-api-riyokakunin",
+          },
+        ],
+        "EvaluationPeriods": 10,
+        "MetricName": "Latency",
+        "Namespace": "AWS/ApiGateway",
+        "Period": 300,
+        "Statistic": "Average",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+        "Threshold": 45,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "riyokakuninApiGWriyotsuchiApi375FA80D": {
+      "Properties": {
+        "EndpointConfiguration": {
+          "Types": [
+            "PRIVATE",
+          ],
+          "VpcEndpointIds": [
+            "vpce-077dcea7b8d0db331",
+          ],
+        },
+        "Name": "pds-dev-api-riyokakunin",
+        "Policy": {
+          "Statement": [
+            {
+              "Action": "execute-api:Invoke",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": "*",
+              },
+              "Resource": "execute-api:/*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+      },
+      "Type": "AWS::ApiGateway::RestApi",
+    },
+    "riyokakuninApiGWriyotsuchiApiAccount9027D3B0": {
+      "DeletionPolicy": "Retain",
+      "DependsOn": [
+        "riyokakuninApiGWriyotsuchiApi375FA80D",
+      ],
+      "Properties": {
+        "CloudWatchRoleArn": {
+          "Fn::GetAtt": [
+            "riyokakuninApiGWriyotsuchiApiCloudWatchRoleC17357D0",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ApiGateway::Account",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "riyokakuninApiGWriyotsuchiApiCloudWatchRoleC17357D0": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "apigateway.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs",
+              ],
+            ],
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "riyokakuninApiGWriyotsuchiApiDeployment6C98F4506cfba47a791f25fba8098bee38195d68": {
+      "DependsOn": [
+        "riyokakuninApiGWriyotsuchiApistreamsPUT843F5820",
+        "riyokakuninApiGWriyotsuchiApistreams1FC4B920",
+      ],
+      "Properties": {
+        "Description": "Automatically created by the RestApi construct",
+        "RestApiId": {
+          "Ref": "riyokakuninApiGWriyotsuchiApi375FA80D",
+        },
+      },
+      "Type": "AWS::ApiGateway::Deployment",
+    },
+    "riyokakuninApiGWriyotsuchiApiDeploymentStagepdsdev7C34A252": {
+      "DependsOn": [
+        "riyokakuninApiGWriyotsuchiApiAccount9027D3B0",
+      ],
+      "Properties": {
+        "AccessLogSetting": {
+          "DestinationArn": {
+            "Fn::GetAtt": [
+              "riyokakuninApiGWLogGroup5A35CB0F",
+              "Arn",
+            ],
+          },
+          "Format": "$context.identity.sourceIp $context.identity.caller $context.identity.user [$context.requestTime] "$context.httpMethod $context.resourcePath $context.protocol" $context.status $context.responseLength $context.requestId",
+        },
+        "DeploymentId": {
+          "Ref": "riyokakuninApiGWriyotsuchiApiDeployment6C98F4506cfba47a791f25fba8098bee38195d68",
+        },
+        "MethodSettings": [
+          {
+            "DataTraceEnabled": true,
+            "HttpMethod": "*",
+            "LoggingLevel": "ERROR",
+            "MetricsEnabled": true,
+            "ResourcePath": "/*",
+          },
+        ],
+        "RestApiId": {
+          "Ref": "riyokakuninApiGWriyotsuchiApi375FA80D",
+        },
+        "StageName": "pds-dev",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+      },
+      "Type": "AWS::ApiGateway::Stage",
+    },
+    "riyokakuninApiGWriyotsuchiApistreams1FC4B920": {
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "riyokakuninApiGWriyotsuchiApi375FA80D",
+            "RootResourceId",
+          ],
+        },
+        "PathPart": "streams",
+        "RestApiId": {
+          "Ref": "riyokakuninApiGWriyotsuchiApi375FA80D",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "riyokakuninApiGWriyotsuchiApistreamsPUT843F5820": {
+      "Properties": {
+        "AuthorizationType": "AWS_IAM",
+        "HttpMethod": "PUT",
+        "Integration": {
+          "Credentials": {
+            "Fn::GetAtt": [
+              "riyokakuninApiGWRole31D17EE6",
+              "Arn",
+            ],
+          },
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "ResponseTemplates": {
+                "application/json": "{
+"Code": "200",
+"Message": "OK",
+"FailedRecordCount": "$input.path('$.FailedRecordCount')"
+}
+#if($input.path('$.FailedRecordCount') != '0')
+#set($context.responseOverride.status = 500)
+#end",
+              },
+              "SelectionPattern": "200",
+              "StatusCode": "200",
+            },
+            {
+              "ResponseTemplates": {
+                "application/json": "{
+"Code": "500",
+"Message": "OK",
+"FailedRecordCount": "$input.path('$.FailedRecordCount')"
+}",
+              },
+              "SelectionPattern": "5d{2}",
+              "StatusCode": "500",
+            },
+          ],
+          "PassthroughBehavior": "WHEN_NO_TEMPLATES",
+          "RequestParameters": {
+            "integration.request.header.Content-Type": "'x-amz-json-1.1'",
+          },
+          "RequestTemplates": {
+            "application/json": {
+              "Fn::Join": [
+                "",
+                [
+                  "
+{
+  "StreamName": "",
+                  {
+                    "Ref": "riyokakuninDataStreamriyotsuchiStream47AD6570",
+                  },
+                  "",
+  "Records": [
+    #foreach($elem in $input.path('$.records'))
+      {
+        "Data": "$util.base64Encode($elem.Data)",
+        "PartitionKey": "$elem.PartitionKey"
+      }#if($foreach.hasNext),#end
+      #end
+  ]
+}",
+                ],
+              ],
+            },
+          },
+          "Type": "AWS",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:us-east-2:kinesis:action/PutRecords",
+              ],
+            ],
+          },
+        },
+        "MethodResponses": [
+          {
+            "StatusCode": "200",
+          },
+          {
+            "StatusCode": "500",
+          },
+        ],
+        "ResourceId": {
+          "Ref": "riyokakuninApiGWriyotsuchiApistreams1FC4B920",
+        },
+        "RestApiId": {
+          "Ref": "riyokakuninApiGWriyotsuchiApi375FA80D",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "riyokakuninDashboarddashboard063E884F": {
+      "Properties": {
+        "DashboardBody": {
+          "Fn::Join": [
+            "",
+            [
+              "{"start":"-PT1H","widgets":[{"type":"text","width":24,"height":4,"x":0,"y":0,"properties":{"markdown":"# API Gateway Metrics\\n## 5××エラーの例\\n- 504 INTEGRATIONN_FAILURE, INTEGRATION_TIMEOUT\\n  - バックエンドとの統合失敗\\n\\n## 4××エラーの例\\n- 400 Kinesis WriteProvisionedThroughputExceeded\\n  - kinesisの書き込みスループット超過エラー\\n- 403 EXPIRED_TOKEN, INVALID_API_KEY, INVALID_SIGNATUREなど\\n  - API KeyやAWS署名などの認証関連エラー\\n"}},{"type":"metric","width":12,"height":8,"x":0,"y":4,"properties":{"view":"timeSeries","title":"エラー発生数 4×× 5××(Sum)","region":"",
+              {
+                "Ref": "AWS::Region",
+              },
+              "","metrics":[["AWS/ApiGateway","4XXError","ApiName","pds-dev-api-riyokakunin",{"stat":"Sum"}],["AWS/ApiGateway","5XXError","ApiName","pds-dev-api-riyokakunin",{"stat":"Sum","yAxis":"right"}]],"yAxis":{"left":{"min":0}},"period":60,"stat":"Sum"}},{"type":"metric","width":12,"height":8,"x":12,"y":4,"properties":{"view":"timeSeries","title":"レイテンシー(Max, p99, Avg, Min)","region":"",
+              {
+                "Ref": "AWS::Region",
+              },
+              "","metrics":[["AWS/ApiGateway","Latency","ApiName","pds-dev-api-riyokakunin",{"stat":"Maximum"}],["AWS/ApiGateway","Latency","ApiName","pds-dev-api-riyokakunin",{"stat":"p99"}],["AWS/ApiGateway","Latency","ApiName","pds-dev-api-riyokakunin"],["AWS/ApiGateway","Latency","ApiName","pds-dev-api-riyokakunin",{"stat":"Minimum"}]],"yAxis":{"left":{"min":0}},"period":60}},{"type":"text","width":24,"height":2,"x":0,"y":12,"properties":{"markdown":"# KDS Metrics"}},{"type":"metric","width":12,"height":8,"x":0,"y":14,"properties":{"view":"timeSeries","title":"KDS内部エラー発生数(Sum)","region":"",
+              {
+                "Ref": "AWS::Region",
+              },
+              "","metrics":[["AWS/Kinesis","PutRecords.FailedRecords","StreamName","",
+              {
+                "Ref": "riyokakuninDataStreamriyotsuchiStream47AD6570",
+              },
+              ""]],"yAxis":{"left":{"min":0}},"period":60,"stat":"Sum"}},{"type":"metric","width":12,"height":8,"x":12,"y":14,"properties":{"view":"timeSeries","title":"KDSスロットリングエラー数(Sum)","region":"",
+              {
+                "Ref": "AWS::Region",
+              },
+              "","metrics":[["AWS/Kinesis","PutRecords.ThrottledRecords","StreamName","",
+              {
+                "Ref": "riyokakuninDataStreamriyotsuchiStream47AD6570",
+              },
+              ""]],"yAxis":{},"stat":"Sum"}},{"type":"metric","width":12,"height":8,"x":0,"y":22,"properties":{"view":"timeSeries","title":"書き込み制限エラー数(Sum)と分あたり送信レコード数(Sum)","region":"",
+              {
+                "Ref": "AWS::Region",
+              },
+              "","metrics":[["AWS/Kinesis","PutRecords.ThrottledRecords","StreamName","",
+              {
+                "Ref": "riyokakuninDataStreamriyotsuchiStream47AD6570",
+              },
+              "",{"period":60,"stat":"Sum"}],[{"label":"incommingRecords","expression":"e1/60","yAxis":"right"}],["AWS/Kinesis","IncomingRecords","StreamName","",
+              {
+                "Ref": "riyokakuninDataStreamriyotsuchiStream47AD6570",
+              },
+              "",{"stat":"Sum","visible":false,"id":"e1"}]],"yAxis":{"left":{"min":0},"right":{"min":0}},"period":60,"stat":"Sum"}},{"type":"metric","width":12,"height":8,"x":12,"y":22,"properties":{"view":"timeSeries","title":"書き込み制限エラー数(Sum)と分あたり送信レコードByte(Sum)","region":"",
+              {
+                "Ref": "AWS::Region",
+              },
+              "","metrics":[["AWS/Kinesis","PutRecords.ThrottledRecords","StreamName","",
+              {
+                "Ref": "riyokakuninDataStreamriyotsuchiStream47AD6570",
+              },
+              "",{"period":60,"stat":"Sum"}],[{"label":"incommingBytes","expression":"e1/60","yAxis":"right"}],["AWS/Kinesis","IncomingBytes","StreamName","",
+              {
+                "Ref": "riyokakuninDataStreamriyotsuchiStream47AD6570",
+              },
+              "",{"stat":"Sum","visible":false,"id":"e1"}]],"yAxis":{"left":{"min":0},"right":{"min":0}},"period":60,"stat":"Sum"}},{"type":"metric","width":12,"height":8,"x":0,"y":30,"properties":{"view":"timeSeries","title":"読み込み制限エラー数(Sum)","region":"",
+              {
+                "Ref": "AWS::Region",
+              },
+              "","metrics":[["AWS/Kinesis","ReadProvisionedThroughputExceeded","StreamName","",
+              {
+                "Ref": "riyokakuninDataStreamriyotsuchiStream47AD6570",
+              },
+              ""]],"yAxis":{"left":{"min":0}},"period":60,"stat":"Sum"}},{"type":"metric","width":12,"height":8,"x":12,"y":30,"properties":{"view":"timeSeries","title":"データストリーム内での待機時間(Max, p99, Avg, Min)","region":"",
+              {
+                "Ref": "AWS::Region",
+              },
+              "","metrics":[["AWS/Kinesis","GetRecords.IteratorAgeMilliseconds","StreamName","",
+              {
+                "Ref": "riyokakuninDataStreamriyotsuchiStream47AD6570",
+              },
+              "",{"stat":"Maximum"}],["AWS/Kinesis","GetRecords.IteratorAgeMilliseconds","StreamName","",
+              {
+                "Ref": "riyokakuninDataStreamriyotsuchiStream47AD6570",
+              },
+              "",{"stat":"p99"}],["AWS/Kinesis","GetRecords.IteratorAgeMilliseconds","StreamName","",
+              {
+                "Ref": "riyokakuninDataStreamriyotsuchiStream47AD6570",
+              },
+              ""],["AWS/Kinesis","GetRecords.IteratorAgeMilliseconds","StreamName","",
+              {
+                "Ref": "riyokakuninDataStreamriyotsuchiStream47AD6570",
+              },
+              "",{"stat":"Minimum"}]],"yAxis":{"left":{"min":0}},"period":60}},{"type":"metric","width":12,"height":8,"x":0,"y":38,"properties":{"view":"timeSeries","title":"シャード数(Max)と送信レコード数(Sum)","region":"",
+              {
+                "Ref": "AWS::Region",
+              },
+              "","metrics":[["Custom/KinesisMetrics","OpenShardCount","dataStreamName","",
+              {
+                "Ref": "riyokakuninDataStreamriyotsuchiStream47AD6570",
+              },
+              ""],[{"label":"incommingRecords","expression":"e1/60","yAxis":"right"}],["AWS/Kinesis","IncomingRecords","StreamName","",
+              {
+                "Ref": "riyokakuninDataStreamriyotsuchiStream47AD6570",
+              },
+              "",{"stat":"Sum","visible":false,"id":"e1"}]],"yAxis":{"left":{"min":0},"right":{"min":0}},"period":60,"stat":"Maximum"}}]}",
+            ],
+          ],
+        },
+        "DashboardName": "pds-dev-cw-dashboard-riyokakunin",
+      },
+      "Type": "AWS::CloudWatch::Dashboard",
+    },
+    "riyokakuninDataStreamCustomerKey6B661761": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "EnableKeyRotation": true,
+        "KeyPolicy": {
+          "Statement": [
+            {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::739770618285:root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "kms:Create*",
+                "kms:Describe*",
+                "kms:Enable*",
+                "kms:List*",
+                "kms:Put*",
+                "kms:Update*",
+                "kms:Revoke*",
+                "kms:Disable*",
+                "kms:Get*",
+                "kms:Delete*",
+                "kms:TagResource",
+                "kms:UntagResource",
+                "kms:ScheduleKeyDeletion",
+                "kms:CancelKeyDeletion",
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::456435170547:root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PendingWindowInDays": 7,
+        "RotationPeriodInDays": 365,
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+      },
+      "Type": "AWS::KMS::Key",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "riyokakuninDataStreamCustomerKeyAliasEF1837AA": {
+      "Properties": {
+        "AliasName": "alias/pds-dev-kms-riyokakunin",
+        "TargetKeyId": {
+          "Fn::GetAtt": [
+            "riyokakuninDataStreamCustomerKey6B661761",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::KMS::Alias",
+    },
+    "riyokakuninDataStreamIteratorAgeD632B28C": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": "dev-base-stack:ExportsOutputRefsnsTopic22605A7723AC23D3",
+          },
+        ],
+        "AlarmName": "pds-dev-cloudwatch-alarm-kds-iteratorAge-riyokakunin-warn",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "StreamName",
+            "Value": {
+              "Ref": "riyokakuninDataStreamriyotsuchiStream47AD6570",
+            },
+          },
+        ],
+        "EvaluationPeriods": 10,
+        "MetricName": "GetRecords.IteratorAgeMilliseconds",
+        "Namespace": "AWS/Kinesis",
+        "Period": 300,
+        "Statistic": "Maximum",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+        "Threshold": 45,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "riyokakuninDataStreamcustomMetricE54BBF6C": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": "dev-base-stack:ExportsOutputRefsnsTopic22605A7723AC23D3",
+          },
+        ],
+        "AlarmName": "pds-dev-cloudwatch-alarm-kds-CustomShardCount-riyokakunin-warn",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "dataStreamName",
+            "Value": {
+              "Ref": "riyokakuninDataStreamriyotsuchiStream47AD6570",
+            },
+          },
+        ],
+        "EvaluationPeriods": 10,
+        "MetricName": "OpenShardCount",
+        "Namespace": "Custom/KinesisMetrics",
+        "Period": 300,
+        "Statistic": "Average",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+        "Threshold": 8,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "riyokakuninDataStreamreadProvisioned9BECCF57": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": "dev-base-stack:ExportsOutputRefsnsTopic22605A7723AC23D3",
+          },
+        ],
+        "AlarmName": "pds-dev-cloudwatch-alarm-kds-readProvisioned-riyokakunin-warn",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "StreamName",
+            "Value": {
+              "Ref": "riyokakuninDataStreamriyotsuchiStream47AD6570",
+            },
+          },
+        ],
+        "EvaluationPeriods": 10,
+        "MetricName": "ReadProvisionedThroughputExceeded",
+        "Namespace": "AWS/Kinesis",
+        "Period": 300,
+        "Statistic": "Average",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+        "Threshold": 45,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "riyokakuninDataStreamriyotsuchiStream47AD6570": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Name": "pds-dev-kds-riyokakunin",
+        "RetentionPeriodHours": 24,
+        "StreamEncryption": {
+          "EncryptionType": "KMS",
+          "KeyId": {
+            "Fn::GetAtt": [
+              "riyokakuninDataStreamCustomerKey6B661761",
+              "Arn",
+            ],
+          },
+        },
+        "StreamModeDetails": {
+          "StreamMode": "ON_DEMAND",
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+      },
+      "Type": "AWS::Kinesis::Stream",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "riyokakuninDataStreamwriteProvisionedFD71185B": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": "dev-base-stack:ExportsOutputRefsnsTopic22605A7723AC23D3",
+          },
+        ],
+        "AlarmName": "pds-dev-cloudwatch-alarm-kds-writeProvisioned-riyokakunin-warn",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "StreamName",
+            "Value": {
+              "Ref": "riyokakuninDataStreamriyotsuchiStream47AD6570",
+            },
+          },
+        ],
+        "EvaluationPeriods": 10,
+        "MetricName": "WriteProvisionedThroughputExceeded",
+        "Namespace": "AWS/Kinesis",
+        "Period": 300,
+        "Statistic": "Average",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+        "Threshold": 45,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`riyotsuchiApiGwKdsStack 1`] = `
+{
+  "Outputs": {
+    "riyotsuchiApiGWriyotsuchiApiEndpoint6CC0AAD6": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "riyotsuchiApiGWriyotsuchiApiB662FE9E",
+            },
+            ".execute-api.us-east-2.",
+            {
+              "Ref": "AWS::URLSuffix",
+            },
+            "/",
+            {
+              "Ref": "riyotsuchiApiGWriyotsuchiApiDeploymentStagepdsdevFD1233E2",
+            },
+            "/",
+          ],
+        ],
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "riyotsuchiApiGW5xxAlarm817EC57C": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": "dev-base-stack:ExportsOutputRefsnsTopic22605A7723AC23D3",
+          },
+        ],
+        "AlarmName": "pds-dev-cloudwatch-alarm-api-serverError-riyotsuchi-warn",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "ApiName",
+            "Value": "pds-dev-api-riyotsuchi",
+          },
+        ],
+        "EvaluationPeriods": 10,
+        "MetricName": "5XXError",
+        "Namespace": "AWS/ApiGateway",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+        "Threshold": 45,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "riyotsuchiApiGWLogGroup49503B23": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "RetentionInDays": 731,
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "riyotsuchiApiGWRole5F83CB80": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "apigateway.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs",
+              ],
+            ],
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "riyotsuchiApiGWRoleDefaultPolicyF6510080": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "kinesis:DescribeStreamSummary",
+                "kinesis:GetRecords",
+                "kinesis:GetShardIterator",
+                "kinesis:ListShards",
+                "kinesis:SubscribeToShard",
+                "kinesis:DescribeStream",
+                "kinesis:ListStreams",
+                "kinesis:DescribeStreamConsumer",
+                "kinesis:PutRecord",
+                "kinesis:PutRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "riyotsuchiDataStreamriyotsuchiStreamC135C581",
+                  "Arn",
+                ],
+              },
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "riyotsuchiDataStreamCustomerKey6B1AD415",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "riyotsuchiApiGWRoleDefaultPolicyF6510080",
+        "Roles": [
+          {
+            "Ref": "riyotsuchiApiGWRole5F83CB80",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "riyotsuchiApiGWlatency9BDD526A": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": "dev-base-stack:ExportsOutputRefsnsTopic22605A7723AC23D3",
+          },
+        ],
+        "AlarmName": "pds-dev-cloudwatch-alarm-api-latency-riyotsuchi-warn",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "ApiName",
+            "Value": "pds-dev-api-riyotsuchi",
+          },
+        ],
+        "EvaluationPeriods": 10,
+        "MetricName": "Latency",
+        "Namespace": "AWS/ApiGateway",
+        "Period": 300,
+        "Statistic": "Average",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+        "Threshold": 45,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "riyotsuchiApiGWriyotsuchiApiAccount394F264D": {
+      "DeletionPolicy": "Retain",
+      "DependsOn": [
+        "riyotsuchiApiGWriyotsuchiApiB662FE9E",
+      ],
+      "Properties": {
+        "CloudWatchRoleArn": {
+          "Fn::GetAtt": [
+            "riyotsuchiApiGWriyotsuchiApiCloudWatchRole80A8D97A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ApiGateway::Account",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "riyotsuchiApiGWriyotsuchiApiB662FE9E": {
+      "Properties": {
+        "EndpointConfiguration": {
+          "Types": [
+            "PRIVATE",
+          ],
+          "VpcEndpointIds": [
+            "vpce-077dcea7b8d0db331",
+            "vpce-022a36476191c3aaf",
+          ],
+        },
+        "Name": "pds-dev-api-riyotsuchi",
+        "Policy": {
+          "Statement": [
+            {
+              "Action": "execute-api:Invoke",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": "*",
+              },
+              "Resource": "execute-api:/*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+      },
+      "Type": "AWS::ApiGateway::RestApi",
+    },
+    "riyotsuchiApiGWriyotsuchiApiCloudWatchRole80A8D97A": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "apigateway.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs",
+              ],
+            ],
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "riyotsuchiApiGWriyotsuchiApiDeployment803FE0F58c61772a8e5127b771a96b1e7189bf1f": {
+      "DependsOn": [
+        "riyotsuchiApiGWriyotsuchiApistreamsPUT8D43A908",
+        "riyotsuchiApiGWriyotsuchiApistreamsDC4904EE",
+      ],
+      "Properties": {
+        "Description": "Automatically created by the RestApi construct",
+        "RestApiId": {
+          "Ref": "riyotsuchiApiGWriyotsuchiApiB662FE9E",
+        },
+      },
+      "Type": "AWS::ApiGateway::Deployment",
+    },
+    "riyotsuchiApiGWriyotsuchiApiDeploymentStagepdsdevFD1233E2": {
+      "DependsOn": [
+        "riyotsuchiApiGWriyotsuchiApiAccount394F264D",
+      ],
+      "Properties": {
+        "AccessLogSetting": {
+          "DestinationArn": {
+            "Fn::GetAtt": [
+              "riyotsuchiApiGWLogGroup49503B23",
+              "Arn",
+            ],
+          },
+          "Format": "$context.identity.sourceIp $context.identity.caller $context.identity.user [$context.requestTime] "$context.httpMethod $context.resourcePath $context.protocol" $context.status $context.responseLength $context.requestId",
+        },
+        "DeploymentId": {
+          "Ref": "riyotsuchiApiGWriyotsuchiApiDeployment803FE0F58c61772a8e5127b771a96b1e7189bf1f",
+        },
+        "MethodSettings": [
+          {
+            "DataTraceEnabled": true,
+            "HttpMethod": "*",
+            "LoggingLevel": "ERROR",
+            "MetricsEnabled": true,
+            "ResourcePath": "/*",
+          },
+        ],
+        "RestApiId": {
+          "Ref": "riyotsuchiApiGWriyotsuchiApiB662FE9E",
+        },
+        "StageName": "pds-dev",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+      },
+      "Type": "AWS::ApiGateway::Stage",
+    },
+    "riyotsuchiApiGWriyotsuchiApistreamsDC4904EE": {
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "riyotsuchiApiGWriyotsuchiApiB662FE9E",
+            "RootResourceId",
+          ],
+        },
+        "PathPart": "streams",
+        "RestApiId": {
+          "Ref": "riyotsuchiApiGWriyotsuchiApiB662FE9E",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "riyotsuchiApiGWriyotsuchiApistreamsPUT8D43A908": {
+      "Properties": {
+        "AuthorizationType": "AWS_IAM",
+        "HttpMethod": "PUT",
+        "Integration": {
+          "Credentials": {
+            "Fn::GetAtt": [
+              "riyotsuchiApiGWRole5F83CB80",
+              "Arn",
+            ],
+          },
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "ResponseTemplates": {
+                "application/json": "{
+"Code": "200",
+"Message": "OK",
+"FailedRecordCount": "$input.path('$.FailedRecordCount')"
+}
+#if($input.path('$.FailedRecordCount') != '0')
+#set($context.responseOverride.status = 500)
+#end",
+              },
+              "SelectionPattern": "200",
+              "StatusCode": "200",
+            },
+            {
+              "ResponseTemplates": {
+                "application/json": "{
+"Code": "500",
+"Message": "OK",
+"FailedRecordCount": "$input.path('$.FailedRecordCount')"
+}",
+              },
+              "SelectionPattern": "5d{2}",
+              "StatusCode": "500",
+            },
+          ],
+          "PassthroughBehavior": "WHEN_NO_TEMPLATES",
+          "RequestParameters": {
+            "integration.request.header.Content-Type": "'x-amz-json-1.1'",
+          },
+          "RequestTemplates": {
+            "application/json": {
+              "Fn::Join": [
+                "",
+                [
+                  "
+{
+  "StreamName": "",
+                  {
+                    "Ref": "riyotsuchiDataStreamriyotsuchiStreamC135C581",
+                  },
+                  "",
+  "Records": [
+    #foreach($elem in $input.path('$.records'))
+      {
+        "Data": "$util.base64Encode($elem.Data)",
+        "PartitionKey": "$elem.PartitionKey"
+      }#if($foreach.hasNext),#end
+      #end
+  ]
+}",
+                ],
+              ],
+            },
+          },
+          "Type": "AWS",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:us-east-2:kinesis:action/PutRecords",
+              ],
+            ],
+          },
+        },
+        "MethodResponses": [
+          {
+            "StatusCode": "200",
+          },
+          {
+            "StatusCode": "500",
+          },
+        ],
+        "ResourceId": {
+          "Ref": "riyotsuchiApiGWriyotsuchiApistreamsDC4904EE",
+        },
+        "RestApiId": {
+          "Ref": "riyotsuchiApiGWriyotsuchiApiB662FE9E",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "riyotsuchiDashboarddashboard755B9C70": {
+      "Properties": {
+        "DashboardBody": {
+          "Fn::Join": [
+            "",
+            [
+              "{"start":"-PT1H","widgets":[{"type":"text","width":24,"height":4,"x":0,"y":0,"properties":{"markdown":"# API Gateway Metrics\\n## 5××エラーの例\\n- 504 INTEGRATIONN_FAILURE, INTEGRATION_TIMEOUT\\n  - バックエンドとの統合失敗\\n\\n## 4××エラーの例\\n- 400 Kinesis WriteProvisionedThroughputExceeded\\n  - kinesisの書き込みスループット超過エラー\\n- 403 EXPIRED_TOKEN, INVALID_API_KEY, INVALID_SIGNATUREなど\\n  - API KeyやAWS署名などの認証関連エラー\\n"}},{"type":"metric","width":12,"height":8,"x":0,"y":4,"properties":{"view":"timeSeries","title":"エラー発生数 4×× 5××(Sum)","region":"",
+              {
+                "Ref": "AWS::Region",
+              },
+              "","metrics":[["AWS/ApiGateway","4XXError","ApiName","pds-dev-api-riyotsuchi",{"stat":"Sum"}],["AWS/ApiGateway","5XXError","ApiName","pds-dev-api-riyotsuchi",{"stat":"Sum","yAxis":"right"}]],"yAxis":{"left":{"min":0}},"period":60,"stat":"Sum"}},{"type":"metric","width":12,"height":8,"x":12,"y":4,"properties":{"view":"timeSeries","title":"レイテンシー(Max, p99, Avg, Min)","region":"",
+              {
+                "Ref": "AWS::Region",
+              },
+              "","metrics":[["AWS/ApiGateway","Latency","ApiName","pds-dev-api-riyotsuchi",{"stat":"Maximum"}],["AWS/ApiGateway","Latency","ApiName","pds-dev-api-riyotsuchi",{"stat":"p99"}],["AWS/ApiGateway","Latency","ApiName","pds-dev-api-riyotsuchi"],["AWS/ApiGateway","Latency","ApiName","pds-dev-api-riyotsuchi",{"stat":"Minimum"}]],"yAxis":{"left":{"min":0}},"period":60}},{"type":"text","width":24,"height":2,"x":0,"y":12,"properties":{"markdown":"# KDS Metrics"}},{"type":"metric","width":12,"height":8,"x":0,"y":14,"properties":{"view":"timeSeries","title":"KDS内部エラー発生数(Sum)","region":"",
+              {
+                "Ref": "AWS::Region",
+              },
+              "","metrics":[["AWS/Kinesis","PutRecords.FailedRecords","StreamName","",
+              {
+                "Ref": "riyotsuchiDataStreamriyotsuchiStreamC135C581",
+              },
+              ""]],"yAxis":{"left":{"min":0}},"period":60,"stat":"Sum"}},{"type":"metric","width":12,"height":8,"x":12,"y":14,"properties":{"view":"timeSeries","title":"KDSスロットリングエラー数(Sum)","region":"",
+              {
+                "Ref": "AWS::Region",
+              },
+              "","metrics":[["AWS/Kinesis","PutRecords.ThrottledRecords","StreamName","",
+              {
+                "Ref": "riyotsuchiDataStreamriyotsuchiStreamC135C581",
+              },
+              ""]],"yAxis":{},"stat":"Sum"}},{"type":"metric","width":12,"height":8,"x":0,"y":22,"properties":{"view":"timeSeries","title":"書き込み制限エラー数(Sum)と分あたり送信レコード数(Sum)","region":"",
+              {
+                "Ref": "AWS::Region",
+              },
+              "","metrics":[["AWS/Kinesis","PutRecords.ThrottledRecords","StreamName","",
+              {
+                "Ref": "riyotsuchiDataStreamriyotsuchiStreamC135C581",
+              },
+              "",{"period":60,"stat":"Sum"}],[{"label":"incommingRecords","expression":"e1/60","yAxis":"right"}],["AWS/Kinesis","IncomingRecords","StreamName","",
+              {
+                "Ref": "riyotsuchiDataStreamriyotsuchiStreamC135C581",
+              },
+              "",{"stat":"Sum","visible":false,"id":"e1"}]],"yAxis":{"left":{"min":0},"right":{"min":0}},"period":60,"stat":"Sum"}},{"type":"metric","width":12,"height":8,"x":12,"y":22,"properties":{"view":"timeSeries","title":"書き込み制限エラー数(Sum)と分あたり送信レコードByte(Sum)","region":"",
+              {
+                "Ref": "AWS::Region",
+              },
+              "","metrics":[["AWS/Kinesis","PutRecords.ThrottledRecords","StreamName","",
+              {
+                "Ref": "riyotsuchiDataStreamriyotsuchiStreamC135C581",
+              },
+              "",{"period":60,"stat":"Sum"}],[{"label":"incommingBytes","expression":"e1/60","yAxis":"right"}],["AWS/Kinesis","IncomingBytes","StreamName","",
+              {
+                "Ref": "riyotsuchiDataStreamriyotsuchiStreamC135C581",
+              },
+              "",{"stat":"Sum","visible":false,"id":"e1"}]],"yAxis":{"left":{"min":0},"right":{"min":0}},"period":60,"stat":"Sum"}},{"type":"metric","width":12,"height":8,"x":0,"y":30,"properties":{"view":"timeSeries","title":"読み込み制限エラー数(Sum)","region":"",
+              {
+                "Ref": "AWS::Region",
+              },
+              "","metrics":[["AWS/Kinesis","ReadProvisionedThroughputExceeded","StreamName","",
+              {
+                "Ref": "riyotsuchiDataStreamriyotsuchiStreamC135C581",
+              },
+              ""]],"yAxis":{"left":{"min":0}},"period":60,"stat":"Sum"}},{"type":"metric","width":12,"height":8,"x":12,"y":30,"properties":{"view":"timeSeries","title":"データストリーム内での待機時間(Max, p99, Avg, Min)","region":"",
+              {
+                "Ref": "AWS::Region",
+              },
+              "","metrics":[["AWS/Kinesis","GetRecords.IteratorAgeMilliseconds","StreamName","",
+              {
+                "Ref": "riyotsuchiDataStreamriyotsuchiStreamC135C581",
+              },
+              "",{"stat":"Maximum"}],["AWS/Kinesis","GetRecords.IteratorAgeMilliseconds","StreamName","",
+              {
+                "Ref": "riyotsuchiDataStreamriyotsuchiStreamC135C581",
+              },
+              "",{"stat":"p99"}],["AWS/Kinesis","GetRecords.IteratorAgeMilliseconds","StreamName","",
+              {
+                "Ref": "riyotsuchiDataStreamriyotsuchiStreamC135C581",
+              },
+              ""],["AWS/Kinesis","GetRecords.IteratorAgeMilliseconds","StreamName","",
+              {
+                "Ref": "riyotsuchiDataStreamriyotsuchiStreamC135C581",
+              },
+              "",{"stat":"Minimum"}]],"yAxis":{"left":{"min":0}},"period":60}},{"type":"metric","width":12,"height":8,"x":0,"y":38,"properties":{"view":"timeSeries","title":"シャード数(Max)と送信レコード数(Sum)","region":"",
+              {
+                "Ref": "AWS::Region",
+              },
+              "","metrics":[["Custom/KinesisMetrics","OpenShardCount","dataStreamName","",
+              {
+                "Ref": "riyotsuchiDataStreamriyotsuchiStreamC135C581",
+              },
+              ""],[{"label":"incommingRecords","expression":"e1/60","yAxis":"right"}],["AWS/Kinesis","IncomingRecords","StreamName","",
+              {
+                "Ref": "riyotsuchiDataStreamriyotsuchiStreamC135C581",
+              },
+              "",{"stat":"Sum","visible":false,"id":"e1"}]],"yAxis":{"left":{"min":0},"right":{"min":0}},"period":60,"stat":"Maximum"}}]}",
+            ],
+          ],
+        },
+        "DashboardName": "pds-dev-cw-dashboard-riyotsuchi",
+      },
+      "Type": "AWS::CloudWatch::Dashboard",
+    },
+    "riyotsuchiDataStreamCustomerKey6B1AD415": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "EnableKeyRotation": true,
+        "KeyPolicy": {
+          "Statement": [
+            {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::739770618285:root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "kms:Create*",
+                "kms:Describe*",
+                "kms:Enable*",
+                "kms:List*",
+                "kms:Put*",
+                "kms:Update*",
+                "kms:Revoke*",
+                "kms:Disable*",
+                "kms:Get*",
+                "kms:Delete*",
+                "kms:TagResource",
+                "kms:UntagResource",
+                "kms:ScheduleKeyDeletion",
+                "kms:CancelKeyDeletion",
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::456435170547:root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PendingWindowInDays": 7,
+        "RotationPeriodInDays": 365,
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+      },
+      "Type": "AWS::KMS::Key",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "riyotsuchiDataStreamCustomerKeyAlias7C50243F": {
+      "Properties": {
+        "AliasName": "alias/pds-dev-kms-riyotsuchi",
+        "TargetKeyId": {
+          "Fn::GetAtt": [
+            "riyotsuchiDataStreamCustomerKey6B1AD415",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::KMS::Alias",
+    },
+    "riyotsuchiDataStreamIteratorAge46BF383C": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": "dev-base-stack:ExportsOutputRefsnsTopic22605A7723AC23D3",
+          },
+        ],
+        "AlarmName": "pds-dev-cloudwatch-alarm-kds-iteratorAge-riyotsuchi-warn",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "StreamName",
+            "Value": {
+              "Ref": "riyotsuchiDataStreamriyotsuchiStreamC135C581",
+            },
+          },
+        ],
+        "EvaluationPeriods": 10,
+        "MetricName": "GetRecords.IteratorAgeMilliseconds",
+        "Namespace": "AWS/Kinesis",
+        "Period": 300,
+        "Statistic": "Maximum",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+        "Threshold": 45,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "riyotsuchiDataStreamcustomMetricE3EEF438": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": "dev-base-stack:ExportsOutputRefsnsTopic22605A7723AC23D3",
+          },
+        ],
+        "AlarmName": "pds-dev-cloudwatch-alarm-kds-CustomShardCount-riyotsuchi-warn",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "dataStreamName",
+            "Value": {
+              "Ref": "riyotsuchiDataStreamriyotsuchiStreamC135C581",
+            },
+          },
+        ],
+        "EvaluationPeriods": 10,
+        "MetricName": "OpenShardCount",
+        "Namespace": "Custom/KinesisMetrics",
+        "Period": 300,
+        "Statistic": "Average",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+        "Threshold": 8,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "riyotsuchiDataStreamreadProvisionedE7F76FC3": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": "dev-base-stack:ExportsOutputRefsnsTopic22605A7723AC23D3",
+          },
+        ],
+        "AlarmName": "pds-dev-cloudwatch-alarm-kds-readProvisioned-riyotsuchi-warn",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "StreamName",
+            "Value": {
+              "Ref": "riyotsuchiDataStreamriyotsuchiStreamC135C581",
+            },
+          },
+        ],
+        "EvaluationPeriods": 10,
+        "MetricName": "ReadProvisionedThroughputExceeded",
+        "Namespace": "AWS/Kinesis",
+        "Period": 300,
+        "Statistic": "Average",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+        "Threshold": 45,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "riyotsuchiDataStreamriyotsuchiStreamC135C581": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Name": "pds-dev-kds-riyotsuchi",
+        "RetentionPeriodHours": 24,
+        "StreamEncryption": {
+          "EncryptionType": "KMS",
+          "KeyId": {
+            "Fn::GetAtt": [
+              "riyotsuchiDataStreamCustomerKey6B1AD415",
+              "Arn",
+            ],
+          },
+        },
+        "StreamModeDetails": {
+          "StreamMode": "ON_DEMAND",
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+      },
+      "Type": "AWS::Kinesis::Stream",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "riyotsuchiDataStreamwriteProvisionedB210A94B": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": "dev-base-stack:ExportsOutputRefsnsTopic22605A7723AC23D3",
+          },
+        ],
+        "AlarmName": "pds-dev-cloudwatch-alarm-kds-writeProvisioned-riyotsuchi-warn",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "StreamName",
+            "Value": {
+              "Ref": "riyotsuchiDataStreamriyotsuchiStreamC135C581",
+            },
+          },
+        ],
+        "EvaluationPeriods": 10,
+        "MetricName": "WriteProvisionedThroughputExceeded",
+        "Namespace": "AWS/Kinesis",
+        "Period": 300,
+        "Statistic": "Average",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+        "Threshold": 45,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`shardCount 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "LambdaFunc67408141": {
+      "DependsOn": [
+        "LambdaFuncServiceRoleDefaultPolicy6B137353",
+        "LambdaFuncServiceRole5300ACCB",
+      ],
+      "Properties": {
+        "Architectures": [
+          "arm64",
+        ],
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-739770618285-us-east-2",
+          "S3Key": "c9908649edb1ac9ca56f2094c386d5ba83c6878fee87fd92a49bccd212bcefd0.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "METRIC_NAME": "OpenShardCount",
+            "NAMESPACE": "Custom/KinesisMetrics",
+          },
+        },
+        "FunctionName": "pds-dev-lambda-put-metrics-func",
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "LambdaFuncServiceRole5300ACCB",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "LambdaFuncServiceRole5300ACCB": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LambdaFuncServiceRoleDefaultPolicy6B137353": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "cloudwatch:PutMetricStream",
+                "cloudwatch:PutMetricData",
+                "kinesis:DescribeStreamSummary",
+                "kinesis:ListStreams",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "LambdaFuncServiceRoleDefaultPolicy6B137353",
+        "Roles": [
+          {
+            "Ref": "LambdaFuncServiceRole5300ACCB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "LambdaLogGroup2CA1C11F": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "LambdaFunc67408141",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 1,
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "Riyotsuchikakunin",
+          },
+        ],
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "schedulerAllowEventRuledevpdslambdashardCountmetricstackLambdaFunc596CF78691141E1D": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "LambdaFunc67408141",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": {
+          "Fn::GetAtt": [
+            "schedulerEDBED1F9",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "schedulerEDBED1F9": {
+      "Properties": {
+        "Name": "pds-dev-eventBridge-scheduler",
+        "ScheduleExpression": "cron(0/5 * * * ? *)",
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
+                "LambdaFunc67408141",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+            "RetryPolicy": {
+              "MaximumRetryAttempts": 3,
+            },
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

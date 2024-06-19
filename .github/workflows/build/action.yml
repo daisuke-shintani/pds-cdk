@@ -1,0 +1,43 @@
+name: "build and test action"
+runs:
+  using: "composite"
+  steps:
+    - name: Use Node.js 18.19.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18.19.x
+
+    - name: Cache dependencies
+      id: node_modules_cache_id
+      uses: actions/cache@v4
+      with:
+        path: '**/node_modules'
+        key: node-modules-${{ hashFiles('**/package-lock.json') }}
+
+    - name: Setup dependencies
+      if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
+      run: npm ci
+      shell: bash
+
+    - name:  depcheck
+      run: npm run depcheck
+      shell: bash
+
+    - name:  Check format
+      run: npm run format:ci
+      shell: bash
+
+    - name:  Lint
+      run: npm run lint:ci
+      shell: bash
+
+    - name: CDK Diff Check
+      id: diff
+      run: echo "npx cdk diff ${{ env.ENV_NAME }}" >> diff_job_summary 2>&1
+      # run: npx cdk diff "$AWS_ACCOUNT_NAME/*" >> diff_job_summary 2>&1
+      shell: bash
+
+    - name:  Snapshot tests
+      id: snapshot
+      run: npm run test:snap >> snapshot_job_summary 2>&1
+      shell: bash

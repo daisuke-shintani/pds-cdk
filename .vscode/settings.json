@@ -1,0 +1,23 @@
+{
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[javascript]": {
+        "editor.formatOnSave": false
+    },
+    "[markdown]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": false,
+        "editor.tabSize": 4
+    },
+    "markdown.extension.list.indentationSize": "inherit",
+    "editor.rulers": [100],
+    "editor.minimap.enabled": false,
+    "java.format.settings.url": "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
+    "java.format.settings.profile": "GoogleStyle",
+    "java.compile.nullAnalysis.mode": "automatic",
+    "[java]": {
+        "editor.defaultFormatter": "redhat.java"
+    },
+    "files.exclude": {
+        "**/.git": false,
+    }
+}

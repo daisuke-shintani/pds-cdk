@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+      "esbenp.prettier-vscode",
+      "yzhang.markdown-all-in-one",
+      "hediet.vscode-drawio",
+      "csholmq.excel-to-markdown-table",
+      "davidanson.vscode-markdownlint",
+      "ms-python.python",
+      "editorconfig.editor",
+      "bierner.markdown-mermaid"
+    ]
+} 

@@ -1,0 +1,46 @@
+name: build-actions
+run-name: ${{ github.workflow }} workflow
+on:
+  push:
+    branches:
+      - dev
+    paths-ignore:
+      - 'docs/**'
+  pull_request_target:
+    branches:
+      - dev
+    paths-ignore:
+      - 'docs/**'
+  workflow_dispatch:
+jobs:
+  build-test:
+    runs-on: ubuntu-larger-runner-latest
+    environment:
+      name: dev
+    permissions:
+      id-token: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set
+        env:
+          ENV_NAME: ${{ vars.ENV_NAME }}
+        run: |
+          echo "ENV_NAME=${{ env.ENV_NAME }}" >> $GITHUB_ENV
+          echo "ENV_NAME=${{ env.ENV_NAME }}"
+
+      # - name: assume-role
+      #   id: assume-role
+      #   uses: ./.github/workflows/assume-role
+      #   with:
+      #     dev-oidc-role-arn: ${{ secrets.OIDC_ROLE_ARN }}
+      #     dev-deploy-role-arn: "arn:aws:iam::${{ secrets.ACCOUNT_ID }}:role/ghac-cdk-deploy-role"
+
+      - name: build
+        id: build
+        uses: ./.github/workflows/build
+
+      - name: create job summary
+        id: job-summary
+        uses: ./.github/workflows/job-summary

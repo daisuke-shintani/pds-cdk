@@ -1,0 +1,32 @@
+name: "assume role action"
+inputs:
+  dev-oidc-role-arn:
+    required: true
+  dev-deploy-role-arn:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Assume Common Role
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-region: ap-northeast-1
+        role-to-assume: ${{ inputs.dev-oidc-role-arn }}
+
+    - run: aws sts get-caller-identity
+      shell: bash
+
+    - name: Assume DataStreaming Role
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-region: ap-northeast-1
+        aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
+        role-external-id: ${{ secrets.EXTERNAL_ID }}
+        role-to-assume: ${{ inputs.dev-deploy-role-arn }}
+        role-duration-seconds: 900
+
+    - run: aws sts get-caller-identity
+      shell: bash
