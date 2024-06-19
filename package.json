@@ -30,7 +30,7 @@
     "typescript": "~5.4.5",
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/eslint-plugin": "^7.13.1",
     "depcheck": "^1.4.7",
     "esbuild": "^0.21.5",
     "eslint": "^8.57.0",
