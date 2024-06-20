@@ -28,12 +28,12 @@ export const devConfig: Config = {
     riyotsuchi: 'riyotsuchi',
     riyokakunin: 'riyokakunin'
   },
-  // crossAccountId: {
-  //   riyotsuchi: ['456435170547'],
-  //   riyokakunin: ['456435170547']
-  // },
   crossAccountId: {
-    cep: ['456435170547']
+    riyotsuchi: ['456435170547'],
+    riyokakunin: ['456435170547']
   },
+  // crossAccountId: {
+  //   cep: ['456435170547']
+  // },
   snsNotificationEmail: 'd-shintani@toyotasystems.com'
 }
