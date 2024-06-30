@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-cloudwatch": "^3.592.0",
-    "@aws-sdk/client-kinesis": "^3.592.0",
+    "@aws-sdk/client-kinesis": "^3.606.0",
     "aws-cdk-lib": "2.143.1",
     "constructs": "^10.0.0",
     "esbuild": "^0.21.5",
